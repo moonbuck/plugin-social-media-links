@@ -10,7 +10,7 @@
      class="sml" 
      rel="me" 
      href="{{ $href | safeHTMLAttr }}">@{{ .Username }}</a>
-     <span id="{{ .Name }}" class="sml"> (.Name)</span>
+     <span id="{{ .Name }}" class="sml"> ({{ .Name }})</span>
 </div>
 
 {{- end }}
