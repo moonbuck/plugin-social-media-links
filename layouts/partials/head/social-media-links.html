@@ -1,5 +1,5 @@
 {{- /* Pulls from data/plugin_sml/params.toml to generate the social media links */ -}}
-<link rel="me" href="https://micro.blog/{{ site.Author.username }}" />
+{{ partial "head/social-media-link.html" (dict "Name" "Micro.blog" "Username" site.Author.username "Href" "https://micro.blog/USERNAME") }}
 {{- range site.Data.plugin_sml.params.Platforms }}
 {{ partial "head/social-media-link.html" . }}
 {{- end }}
