@@ -1,0 +1,18 @@
+{{ $mastodon_server := site.Params.sml_mastodon_server | default site.Params.mastodon_server -}}
+{{ $mastodon_user := site.Params.sml_mastodon_username | default site.Params.mastodon_username -}}
+{{ $twitter_user := site.Params.sml_twitter_username | default site.Params.twitter_username -}}
+{{ $github_user := site.Params.sml_github_username | default site.Params.github_username -}}
+{{ $tumblr_user := site.Params.sml_tumblr_username | default site.Params.tumblr_username -}}
+{{ $medium_user := site.Params.sml_medium_username | default site.Params.medium_username -}}
+{{ $facebook_user := site.Params.sml_facebook_username | default site.Params.facebook_username -}}
+{{ $instagram_user := site.Params.sml_instagram_username | default site.Params.instragram_username -}}
+<div id="social-media-links">
+{{ with site.Author.username}}<a rel="me" href="https://micro.blog/{{ . }}">@{{ . }}</a> (Micro.blog)<br />{{ end }}
+{{ if (and $mastodon_server $mastodon_username) }}<a rel="me" href="https://{{ $mastodon_server }}/@{{ $mastodon_username }}">@{{ $mastodon_username }}</a> (Mastodon)<br />{{ end }}
+{{ with $twitter_username}}<a rel="me" href="https://twitter.com/@{{ . }}">@{{ . }}</a> (Twitter)<br />{{ end }}
+{{ with $github_username}}<a rel="me" href="https://github.com/{{ . }}">@{{ . }}</a> (Github)<br />{{ end }}
+{{ with $tumblr_username}}<a rel="me" href="https://{{ . }}.tumblr.com">@{{ . }}</a> (Tumblr)<br />{{ end }}
+{{ with $medium_username}}<a rel="me" href="https://{{ . }}.medium.com">@{{ . }}</a> (Medium)<br />{{ end }}
+{{ with $facebook_username}}<a rel="me" href="https://www.facebook.com/{{ . }}">@{{ . }}</a> (Facebook)<br />{{ end }}
+{{ with $instagram_username}}<a rel="me" href="https://www.instagram.com/{{ . }}">@{{ . }}</a> (Instagram)<br />{{ end }}
+</div>
