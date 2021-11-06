@@ -1,50 +1,8 @@
 {
-    "version": "1.0.0",
+    "version": "2.0.0",
     "title": "Moondeer's Social Media Links",
     "description": "A plugin for managing page links to other social media accounts.",
     "includes": [
       "head/social-media-links.html"
-    ],
-    "fields": [
-        {
-            "field": "params.sml_mastodon_username",
-            "label": "Mastodon Username",
-            "placeholder": ""
-        },
-        {
-            "field": "params.sml_mastodon_server",
-            "label": "Mastodon Server",
-            "placeholder": ""
-        },
-        {
-          "field": "params.sml_twitter_username",
-          "label": "Twitter Username",
-          "placeholder": ""
-        },
-        {
-          "field": "params.sml_github_username",
-          "label": "Github Username",
-          "placeholder": ""
-        },
-        {
-          "field": "params.sml_tumblr_username",
-          "label": "Tumblr Username",
-          "placeholder": ""
-        },
-        {
-          "field": "params.sml_medium_username",
-          "label": "Medium Username",
-          "placeholder": ""
-        },
-        {
-          "field": "params.sml_facebook_username",
-          "label": "Facebook Username",
-          "placeholder": ""
-        },
-        {
-          "field": "params.sml_instagram_username",
-          "label": "Instagram Username",
-          "placeholder": ""
-        }
     ]
   }

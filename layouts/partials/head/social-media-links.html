@@ -1,16 +1,5 @@
-<link rel="me" href="https://micro.blog/{{ site.Author.username }}" />
-{{- $mastodon_server := site.Params.sml_mastodon_server | default site.Params.mastodon_server -}}
-{{- $mastodon_user := site.Params.sml_mastodon_username | default site.Params.mastodon_username -}}
-{{- $twitter_user := site.Params.sml_twitter_username | default site.Params.twitter_username -}}
-{{- $github_user := site.Params.sml_github_username | default site.Params.github_username -}}
-{{- $tumblr_user := site.Params.sml_tumblr_username | default site.Params.tumblr_username -}}
-{{- $medium_user := site.Params.sml_medium_username | default site.Params.medium_username -}}
-{{- $facebook_user := site.Params.sml_facebook_username | default site.Params.facebook_username -}}
-{{- $instagram_user := site.Params.sml_instagram_username | default site.Params.instragram_username -}}
-{{ if (and $mastodon_server $mastodon_user) -}}<link rel="me" href="https://{{$mastodon_server}}/@{{ $mastodon_user }}" />{{ end }}
-{{ with $twitter_user -}}<link rel="me" href="https://twitter.com/@{{ . }}" />{{ end }}
-{{ with $github_user -}}<link rel="me" href="https://github.com/{{ . }}" />{{ end }}
-{{ with $tumblr_user -}}<link rel="me" href="https://{{ . }}.tumblr.com" />{{ end }}
-{{ with $medium_user -}}<link rel="me" href="https://{{ . }}.medium.com" />{{ end }}
-{{ with $facebook_user -}}<link rel="me" href="https://www.facebook.com/{{ . }}" />{{ end }}
-{{ with $instagram_user -}}<link rel="me" href="https://www.instagram.com/{{ . }}" />{{ end }}
+{{- /* Pulls from data/plugin_sml/params.toml to generate the social media links */ -}}
+{{ partial "head/social-media-link.html" (dict "name" "Micro.blog" "href" "https://micro.blog/USERNAME" "username" site.Author.username) }}
+{{- range site.Data.plugin_sml.params.Platforms }}
+{{ partial "head/social-media-link.html" . }}
+{{- end }}

@@ -1,0 +1,8 @@
+{{- if (and (and (and (isset . "name") (isset . "username")) (isset . "href")) (or (not in .href "SERVER")(isset . "server"))) }}
+
+{{- $href := .Href }}
+{{- if (in $href "SERVER") }}{{ $href = $href | replaceRE "SERVER" .Server }}{{ end }}
+{{- $href = $href | replaceRE "USERNAME" .Username }}
+<link rel="me" href="{{ $href | safeHTMLAttr }}" />
+
+{{- end }}
