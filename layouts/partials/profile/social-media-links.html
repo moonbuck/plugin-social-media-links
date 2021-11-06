@@ -1,7 +1,8 @@
 {{- /* Pulls from data/plugin_sml/params.toml to generate the social media links */ -}}
 <div id="social-media-links">
   {{ partial "profile/social-media-link.html" (dict "Name" "Micro.blog" "Username" site.Author.username "Href" "https://micro.blog/USERNAME") }}
-  {{-  range site.Data.plugin_sml.params.Platforms }}
+  {{- $platforms := site.Data.plugin_sml_params.Platforms | default site.Data.plugin_sml.params.Platforms -}}
+  {{-  range $platforms }}
   {{ partial "profile/social-media-link.html" . }}
   {{- end }}
 </div>
