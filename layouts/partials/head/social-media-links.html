@@ -1,12 +1,5 @@
 {{- /* Pulls from data/plugin_sml/params.toml to generate the social media links */ -}}
 <link rel="me" href="https://micro.blog/{{ site.Author.username }}" />
-{{- range $platform := site.Data.plugin_sml.params.Platforms }}
-{{- if (and (and (and .Name .Username) .Href) (or (not in .href "SERVER") .Server)) }}
-
-{{- $href := .Href }}
-{{- if (in $href "SERVER") }}{{ $href = $href | replaceRE "SERVER" .Server }}{{ end }}
-{{- $href = $href | replaceRE "USERNAME" .Username }}
-<link rel="me" href="{{ $href | safeHTMLAttr }}" />
-
-{{- end }}
+{{- range site.Data.plugin_sml.params.Platforms }}
+{{ partial "head/social-media-link.html" . }}
 {{- end }}

@@ -1,0 +1,18 @@
+{{- if (and .Name .Href) }}
+{{- if .Username }}
+{{- if (or .Server (not (in .Href "SERVER"))) }}
+
+{{- $href := .Href }}
+{{- if (in $href "SERVER") }}{{ $href = $href | replaceRE "SERVER" .Server }}{{ end }}
+{{- $href = $href | replaceRE "USERNAME" .Username }}
+<div id="{{ .Name }}" class="sml-container">
+  <a id="{{ .Name }}" 
+     class="sml" 
+     rel="me" 
+     href="{{ $href | safeHTMLAttr }}">@{{ .Username }}</a>
+     <span id="{{ .Name }}" class="sml"> (.Name)</span>
+</div>
+
+{{- end }}
+{{- end }}
+{{- end }}

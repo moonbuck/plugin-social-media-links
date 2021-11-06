@@ -6,20 +6,9 @@
        rel="me" 
        href="https://micro.blog/{{ site.Author.username }}">@{{ site.Author.username }}</a>
     <span id="Micro.blog" class="sml"> (Micro.blog)</span>
-  </div>     
-  {{- range $platform := site.Data.plugin_sml.params.Platforms }}
-  {{- if (and (and (and .Name .Username) .Href) (or (not in .href "SERVER") .Server)) }}
-  
-  {{- $href := .Href }}
-  {{- if (in $href "SERVER") }}{{ $href = $href | replaceRE "SERVER" .Server }}{{ end }}
-  {{- $href = $href | replaceRE "USERNAME" .Username }}
-  <div id="{{ .Name }}" class="sml-container">
-    <a id="{{ .Name }}" 
-       class="sml" 
-       rel="me" 
-       href="{{ $href | safeHTMLAttr }}">@{{ .Username }}</a>
-       <span id="{{ .Name }}" class="sml"> (.Name)</span>
   </div>
-  {{- end }}
+
+  {{-  range site.Data.plugin_sml.params.Platforms }}
+  {{ partial "profile/social-media-link.html" . }}
   {{- end }}
 </div>
