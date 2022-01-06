@@ -33,7 +33,7 @@
 
 {{- with .Config.Version }}{{ $Config_Version = . }}{{ end -}}
 {{- if (isset .Config "DebugPrint") }}{{ $Config_DebugPrint = .Config.DebugPrint }}{{ end -}}
-{{- if (isset .Config "Fingerprint") }}{{ $Config_Fingerprint .Config.Fingerprint }}{{ end -}}
+{{- if (isset .Config "Fingerprint") }}{{ $Config_Fingerprint = .Config.Fingerprint }}{{ end -}}
 {{- with .Config.SassOutput }}{{ $Config_SassOutput = . }}{{ end -}}
 
 {{- with .Accounts.Platforms }}{{ $Accounts_Platforms = . }}{{ end -}}
@@ -57,7 +57,7 @@
 
 {{- with .Config.Version }}{{ $Config_Version = . }}{{ end -}}
 {{- if (isset .Config "DebugPrint") }}{{ $Config_DebugPrint = .Config.DebugPrint }}{{ end -}}
-{{- if (isset .Config "Fingerprint") }}{{ $Config_Fingerprint .Config.Fingerprint }}{{ end -}}
+{{- if (isset .Config "Fingerprint") }}{{ $Config_Fingerprint = .Config.Fingerprint }}{{ end -}}
 {{- with .Config.SassOutput }}{{ $Config_SassOutput = . }}{{ end -}}
 
 {{- with .Accounts.Platforms }}{{ $Accounts_Platforms = . }}{{ end -}}
@@ -87,8 +87,6 @@
     {{- $Accounts_ParsedPlatforms = $Accounts_ParsedPlatforms | append $platform -}}
   {{- end -}}
 {{- end -}}
-
-
 
 {{- /**************************************************
   Construct the intermediate maps (mostly for clarity).

@@ -15,7 +15,7 @@
   {{- $source_dir := "sass/plugin-social-media-links/" -}}
   {{- $template_name := "profile-links.scss" -}}
   {{- $source := path.Join $source_dir $template_name -}}
-  {{- $target := path.Join "assets"  -}}
+  {{- $target := path.Join "assets" -}}
   {{- $style := resources.Get $source | resources.ExecuteAsTemplate $target $ -}} 
 
   {{- $target = $target | replaceRE "sass|scss" "css" -}}
@@ -28,7 +28,7 @@
 <link rel="stylesheet" href="{{ $style.Permalink }}">
 
   {{- range .Accounts.Platforms -}}
-
+    {{- print "\n" -}}
 <link rel="me" href="{{ .Href | safeHTMLAttr }}" />
 
   {{- end -}}
