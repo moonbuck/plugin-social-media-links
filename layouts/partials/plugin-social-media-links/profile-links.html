@@ -1,0 +1,17 @@
+{{ with .Scratch.Get "plugin-social-media-links.Parameters" -}}
+
+<div id="{{ .Style.ContainerID }}">
+
+{{- $linkClass := .Style.LinkClassName -}}
+{{- $labelClass := .Style.LabelClassName -}}
+
+{{- range .Accounts.Platforms -}}
+
+<a id="{{ .Name }}" class="{{ $linkClass }}" rel="me" href="{{ .Href | safeHTMLAttr }}">@{{ .Username }}</a>
+<span id="{{ .Name }}" class="{{ $labelClass }}"> {{ .Name }}</span>
+
+{{- end -}}
+
+</div>
+
+{{- end }}

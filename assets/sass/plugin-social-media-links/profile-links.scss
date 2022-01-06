@@ -1,0 +1,40 @@
+@import "vendor/rfs";
+
+@mixin parameter { @content; }
+
+{{ with .Scratch.Get "plugin-social-media-links.Parameters" }}
+
+#{{ .Style.ContainerID }} {
+  display: grid;
+  column-gap: 1rem;
+  grid-template-columns: 1fr 100px;
+  {{ with .Style.Container }}
+  @include parameter { {{ template "rfs-wrap" . }} }
+  {{ end }}
+  
+  a.{{ .Style.LinkClassName }} { 
+    {{ with .Style.Link }}
+    @include parameter { {{ template "rfs-wrap" . }} }
+    {{ end }}
+    &:hover { 
+      {{ with .Style.LinkHover }}
+      @include parameter { {{ template "rfs-wrap" . }} }
+      {{ end }}
+    }
+  }
+  
+  span.{{ .Style.LabelClassName }} { 
+    {{ with .Style.Label }}
+    @include parameter { {{ template "rfs-wrap" . }} }
+    {{ end }}
+  }
+  
+}
+
+{{ end }}
+
+{{ define "rfs-wrap" }}
+{{ $pattern := `(font-size|padding|padding-top|padding-right|padding-bottom|padding-left|margin|margin-top|margin-right|margin-bottom|margin-left):\w*([^;]+)` }}
+{{ $replacement := `@include $1($2)` }}
+{{ replaceRE $pattern $replacement . }}
+{{ end }}

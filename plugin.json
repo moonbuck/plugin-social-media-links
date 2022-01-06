@@ -1,8 +1,8 @@
 {
-    "version": "2.0.0",
+    "version": "3.0.0",
     "title": "Moondeer's Social Media Links",
     "description": "A plugin for managing page links to other social media accounts.",
     "includes": [
-      "head/social-media-links.html"
+      "plugin-social-media-links/injection.html"
     ]
   }
