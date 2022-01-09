@@ -8,21 +8,27 @@
   to ensure every parameter has a map entry. 
   ***************************************************/ -}}
 
-{{- $Config_Version := "" -}}
-{{- $Config_DebugPrint := false -}}
-{{- $Config_Fingerprint := true -}}
-{{- $Config_SassOutput := "compact" -}}
+{{- $Config := dict
+  "Version" ""
+  "DebugPrint" false
+  "Fingerprint" true
+  "SassOutput" "compact" -}}
 
-{{- $Accounts_Platforms := slice -}}
+{{- $Accounts := dict "Platforms" slice -}}
 
-{{- $Style_ContainerID := "social-media-link-container" -}}
-{{- $Style_LinkClassName := "social-media-link" -}}
-{{- $Style_LabelClassName := "social-media-link-label" -}}
-{{- $Style_Container := "" -}}
-{{- $Style_Link := "" -}}
-{{- $Style_LinkHover := "" -}}
-{{- $Style_Label := "" -}}
+{{- $Style := dict
+  "ContainerID" "social-media-link-container"
+  "LinkClassName" "social-media-link"
+  "LabelClassName" "social-media-link-label"
+  "Container" ""
+  "Link" ""
+  "LinkHover" ""
+  "Label" "" -}}
 
+{{- $Parameters := dict
+  "Config" $Config
+  "Accounts" $Accounts
+  "Style" $Style -}}
 
 {{- /************************************************
   Override the default parameter values with values
@@ -30,23 +36,8 @@
   ***************************************************/ -}}
 
 {{- with site.Data.plugin_social_media_links -}}
-
-{{- with .Config.Version }}{{ $Config_Version = . }}{{ end -}}
-{{- if (isset .Config "DebugPrint") }}{{ $Config_DebugPrint = .Config.DebugPrint }}{{ end -}}
-{{- if (isset .Config "Fingerprint") }}{{ $Config_Fingerprint = .Config.Fingerprint }}{{ end -}}
-{{- with .Config.SassOutput }}{{ $Config_SassOutput = . }}{{ end -}}
-
-{{- with .Accounts.Platforms }}{{ $Accounts_Platforms = . }}{{ end -}}
-
-{{- with .Style.ContainerID }}{{ $Style_ContainerID = . }}{{ end -}}
-{{- with .Style.LinkClassName }}{{ $Style_LinkClassName = . }}{{ end -}}
-{{- with .Style.LabelClassName }}{{ $Style_LabelClassName = . }}{{ end -}}
-{{- with .Style.Container }}{{ $Style_Container = . }}{{ end -}}
-{{- with .Style.Link }}{{ $Style_Link = . }}{{ end -}}
-{{- with .Style.LinkHover }}{{ $Style_LinkHover = . }}{{ end -}}
-{{- with .Style.Label }}{{ $Style_Label = . }}{{ end -}}
-
-{{- end -}} {{- /* with site.Data.plugin_social_media_links */ -}}
+{{- $Parameters = merge $Parameters . -}}
+{{- end -}}
 
 {{- /**********************************************
   Override the default/plugin parameter values with
@@ -54,60 +45,33 @@
   *************************************************/ -}}
 
 {{- with (index site.Data "plugin-social-media-links") -}}
-
-{{- with .Config.Version }}{{ $Config_Version = . }}{{ end -}}
-{{- if (isset .Config "DebugPrint") }}{{ $Config_DebugPrint = .Config.DebugPrint }}{{ end -}}
-{{- if (isset .Config "Fingerprint") }}{{ $Config_Fingerprint = .Config.Fingerprint }}{{ end -}}
-{{- with .Config.SassOutput }}{{ $Config_SassOutput = . }}{{ end -}}
-
-{{- with .Accounts.Platforms }}{{ $Accounts_Platforms = . }}{{ end -}}
-
-{{- with .Style.ContainerID }}{{ $Style_ContainerID = . }}{{ end -}}
-{{- with .Style.LinkClassName }}{{ $Style_LinkClassName = . }}{{ end -}}
-{{- with .Style.LabelClassName }}{{ $Style_LabelClassName = . }}{{ end -}}
-{{- with .Style.Container }}{{ $Style_Container = . }}{{ end -}}
-{{- with .Style.Link }}{{ $Style_Link = . }}{{ end -}}
-{{- with .Style.LinkHover }}{{ $Style_LinkHover = . }}{{ end -}}
-{{- with .Style.Label }}{{ $Style_Label = . }}{{ end -}}
-
-{{- end -}} {{- /* with (index site.Data "plugin-social-media-links") */ -}}
+{{- $Parameters = merge $Parameters . -}}
+{{- end -}}
 
 {{- /* Prepend the Micro.blog account to the platforms slice. */ -}}
-{{- $Accounts_Platforms = slice (dict "Name" "Micro.blog" "Username" site.Author.username "Href" "https://micro.blog/USERNAME") | append $Accounts_Platforms -}}
+{{- $Platforms := slice 
+  (dict "Name" "Micro.blog" 
+        "Username" site.Author.username 
+        "Href" "https://micro.blog/USERNAME") | append $Accounts.Platforms -}}
 
 {{- /* Parse platforms into useable platform attributes. */ -}}
-{{- $Accounts_ParsedPlatforms := slice -}}
-{{- range $Accounts_Platforms -}}
+{{- $ParsedPlatforms := slice -}}
+{{- range $Accounts.Platforms -}}
   {{- if (and (and (and .Name .Href) .Username) (or .Server (not (in .Href "SERVER")))) -}}
   {{- $href := replaceRE "USERNAME" .Username .Href -}}
     {{- with .Server -}}
       {{- $href = $href | replaceRE "SERVER" . -}}
     {{- end -}}
     {{- $platform := dict "Name" .Name "Username" .Username "Href" $href -}}
-    {{- $Accounts_ParsedPlatforms = $Accounts_ParsedPlatforms | append $platform -}}
+    {{- $ParsedPlatforms = $ParsedPlatforms | append $platform -}}
   {{- end -}}
 {{- end -}}
 
-{{- /**************************************************
-  Construct the intermediate maps (mostly for clarity).
+{{- $Accounts = dict 
+  "Raw" $Platforms
+  "Platforms" $ParsedPlatforms -}}
   
-  The map inserted into the page scratch will have the 
-  following key structure:
-  
-  Config
-  *********************************************************/ -}}
-
-{{- /* Config */ -}}
-{{- $Config := dict "Version" $Config_Version "DebugPrint" $Config_DebugPrint "Fingerprint" $Config_Fingerprint "SassOutput" $Config_SassOutput -}}
-
-{{- /* Accounts */ -}}
-{{- $Accounts := dict "Raw" $Accounts_Platforms "Platforms" $Accounts_ParsedPlatforms -}}
-
-{{- /* Style */ -}}
-{{- $Style := dict "ContainerID" $Style_ContainerID "LinkClassName" $Style_LinkClassName "LabelClassName" $Style_LabelClassName "Container" $Style_Container "Link" $Style_Link "LinkHover" $Style_LinkHover "Label" $Style_Label -}}
-
-{{- /* Parameters */ -}}
-{{- $Parameters := dict "Config" $Config "Accounts" $Accounts "Style" $Style -}}
+{{- Parameters = merge $Parameters (dict "Accounts" $Accounts) -}}
 
 {{- /********************************************
   Insert the parameter map into the page scratch.
