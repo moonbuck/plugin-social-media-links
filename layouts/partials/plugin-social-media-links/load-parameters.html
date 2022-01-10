@@ -71,7 +71,7 @@
   "Raw" $Platforms
   "Platforms" $ParsedPlatforms -}}
   
-{{- Parameters = merge $Parameters (dict "Accounts" $Accounts) -}}
+{{- $Parameters = merge $Parameters (dict "Accounts" $Accounts) -}}
 
 {{- /********************************************
   Insert the parameter map into the page scratch.
