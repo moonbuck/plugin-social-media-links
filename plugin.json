@@ -1,7 +1,7 @@
 {
     "version": "4.0.1",
     "title": "Moondeer's Social Media Links",
-    "description": "A plugin for managing page links to other social media accounts.",
+    "description": "A plugin for managing page links to other social media accounts. A README is on the way. See the documented configuration files in the plugin's data directory for plugin parameters, invoke the partial anywhere you want your profile to show up and feel free to holler at me with any questions.",
     "includes": [
       "plugin-social-media-links/injection.html"
     ]
