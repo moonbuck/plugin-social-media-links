@@ -1,3 +1,7 @@
+{{- if not (.Scratch.Get "plugin-social-media-links.Parameters") -}}
+  {{- partial "plugin-social-media-links/load-parameters.html" . -}}
+{{- end -}}
+
 {{ with .Scratch.Get "plugin-social-media-links.Parameters" -}}
 
 <div id="{{ .Style.ContainerID }}" class="p-role">

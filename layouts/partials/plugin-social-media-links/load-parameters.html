@@ -8,27 +8,26 @@
   to ensure every parameter has a map entry. 
   ***************************************************/ -}}
 
-{{- $Config := dict
-  "Version" ""
-  "DebugPrint" false
-  "Fingerprint" true
-  "SassOutput" "compact" -}}
-
-{{- $Accounts := dict "Platforms" slice -}}
-
-{{- $Style := dict
-  "ContainerID" "social-media-link-container"
-  "LinkClassName" "social-media-link"
-  "LabelClassName" "social-media-link-label"
-  "Container" ""
-  "Link" ""
-  "LinkHover" ""
-  "Label" "" -}}
-
 {{- $Parameters := dict
-  "Config" $Config
-  "Accounts" $Accounts
-  "Style" $Style -}}
+  "Config" (dict
+    "Version" ""
+    "DebugPrint" false
+    "Fingerprint" true
+    "SassOutput" "compact")
+  "Accounts" (slice
+    (dict 
+      "Name" "Micro.blog" 
+      "Username" site.Author.username 
+      "Href" "https://micro.blog/USERNAME"))
+  "Style" (dict
+    "ContainerID" "social-media-link-container"
+    "LinkClassName" "social-media-link"
+    "LabelClassName" "social-media-link-label"
+    "Container" ""
+    "Link" ""
+    "LinkHover" ""
+    "Label" "")
+  -}}
 
 {{- /************************************************
   Override the default parameter values with values
@@ -49,14 +48,14 @@
 {{- end -}}
 
 {{- /* Prepend the Micro.blog account to the platforms slice. */ -}}
-{{- $Platforms := slice 
+{{- /*$Platforms := slice 
   (dict "Name" "Micro.blog" 
         "Username" site.Author.username 
-        "Href" "https://micro.blog/USERNAME") | append $Accounts.Platforms -}}
+        "Href" "https://micro.blog/USERNAME") | append $Parameters.Accounts.Platforms*/ -}}
 
 {{- /* Parse platforms into useable platform attributes. */ -}}
 {{- $ParsedPlatforms := slice -}}
-{{- range $Accounts.Platforms -}}
+{{- range $Parameters.Accounts.Platforms -}}
   {{- if (and (and (and .Name .Href) .Username) (or .Server (not (in .Href "SERVER")))) -}}
   {{- $href := replaceRE "USERNAME" .Username .Href -}}
     {{- with .Server -}}
@@ -67,11 +66,11 @@
   {{- end -}}
 {{- end -}}
 
-{{- $Accounts = dict 
-  "Raw" $Platforms
-  "Platforms" $ParsedPlatforms -}}
-  
-{{- $Parameters = merge $Parameters (dict "Accounts" $Accounts) -}}
+{{- $Parameters = merge $Parameters (dict 
+  "Accounts" (dict 
+    "Raw" $Parameters.Accounts.Platforms
+    "Platforms" $ParsedPlatforms)) 
+  -}}
 
 {{- /********************************************
   Insert the parameter map into the page scratch.

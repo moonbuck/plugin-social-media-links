@@ -1,10 +1,12 @@
 {{- /* Resolve the plugin parameter values. */ -}}
-{{- partial "plugin-social-media-links/load-parameters.html" . -}}
+{{- if not (.Scratch.Get "plugin-social-media-links.Parameters") -}}
+  {{- partial "plugin-social-media-links/load-parameters.html" . -}}
+{{- end -}}
 
 {{- with (.Scratch.Get "plugin-social-media-links.Parameters") -}}
 
   {{- if .Config.DebugPrint -}}
-    {{- printf "\n<!--\nplugin-social-media-links.Parameters:\n%s\n-->" (jsonify .) | safeHTML -}}
+    {{- printf "\n<!--\nplugin-social-media-links.Parameters:\n%s\n-->" (. | jsonify (dict "prefix" " " "indent" "  ")) | safeHTML -}}
   {{- end -}}
 
   {{- /* Insert the plugin version and build time */ -}}
